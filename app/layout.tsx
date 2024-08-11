@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+// import { LinearGradient } from "expo-linear-gradient";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +17,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {/* <LinearGradient
+        colors = {['#ff0000', '#0000ff']}></LinearGradient> */}
+        {children}</body>
     </html>
   );
 }
