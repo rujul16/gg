@@ -15,13 +15,13 @@ const Home = () => {
     ];
 
     const containerStyle = {
-        width:"91vw",
-        height:"47vh",
+        width:"90vw",
+        height:"75vh",
         
 
     };
   return (
-    <div style={containerStyle} className='ml-8 mt-5'>
+    <div style={containerStyle} className='mt-5 mx-auto'>
         <Carousel 
         slides = {slides}/>
     </div>

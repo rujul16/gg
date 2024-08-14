@@ -1,26 +1,67 @@
-import { navbarLinks } from '@/constants'
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
+'use client'
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 
 const Navbar = () => {
-  return (
-    <div className='flex justify-between items-center m-3 '>
-        <div>
-            <Link href={'/'}>
-            <Image  src='/icons/logo.png' alt='logo' height={80} width={150} className='ml-6'/></Link>
-        </div>
-        <div className='flex gap-5 m-2'>
-            {navbarLinks.map((item => {
-                return(
-                    <Link href={item.route} key={item.label}>
-                        <div>{item.label}</div>
-                    </Link>
-                )
-            }))}
-        </div>
-    </div>
-  )
-}
+  const router = useRouter();
+  const currentRoute = usePathname();
 
-export default Navbar
+  return (
+    <nav className="flex justify-between items-center p-4 shadow-lg">
+      {/* Logo */}
+      <Link href="/">
+        <Image src="/icons/logo.png" alt="logo" height={80} width={150} className="cursor-pointer" />
+      </Link>
+
+      {/* Navigation Links */}
+      <ul className="flex gap-6 items-center">
+        <li>
+          <Link href="/" className={currentRoute === '/' ? 'text-[#d69ef7] font-bold' : 'hover:text-[#d69ef7]'}>
+            Home
+          </Link>
+        </li>
+        <li>
+          <Link href="/companies" className={currentRoute === '/companies' ? 'text-[#d69ef7] font-bold' : 'hover:text-[#d69ef7]'}>
+            Companies
+          </Link>
+        </li>
+        <li>
+          <Link href="/events" className={currentRoute === '/events' ? 'text-[#d69ef7] font-bold' : 'hover:text-[#d69ef7]'}>
+            Events
+          </Link>
+        </li>
+        <li>
+          <Link href="/authority-connect" className={currentRoute === '/authority-connect' ? 'text-[#d69ef7] font-bold' : 'hover:text-[#d69ef7]'}>
+            Authority Connect
+          </Link>
+        </li>
+        <li>
+          <Link href="/team" className={currentRoute === '/team' ? 'text-[#d69ef7] font-bold' : 'hover:text-[#d69ef7]'}>
+            Team
+          </Link>
+        </li>
+        <li>
+          <Link href="/contact-us" className={currentRoute === '/contact-us' ? 'text-[#d69ef7] font-bold' : 'hover:text-[#d69ef7]'}>
+            Contact us
+          </Link>
+        </li>
+        <li>
+          {/* Profile Handling */}
+          <SignedIn>
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
+          <SignedOut>
+            <Link href="/profile" className={currentRoute === '/profile' ? 'text-blue-600 font-bold' : 'hover:text-blue-600'}>
+              Profile
+            </Link>
+          </SignedOut>
+        </li>
+      </ul>
+    </nav>
+  );
+};
+
+export default Navbar;

@@ -1,112 +1,32 @@
 "use client";
 
-import { useState, ChangeEvent, FormEvent } from 'react';
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@clerk/nextjs';
 
-// Define types for form data and errors
-interface FormData {
-  username?: string;
-  email?: string;
-  password?: string;
-}
+export default function Profile() {
+  const router = useRouter();
+  const { isLoaded, userId } = useAuth();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-interface Error {
-  message: string;
-}
-
-// SignUp component
-export default function SignUp() {
-  // Initialize state with type annotations
-  const [formData, setFormData] = useState<FormData>({});
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-
-  // Handle form input changes
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    });
-  };
-
-  // Handle form submission
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      setLoading(true);
-      const res = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      console.log(data);
-      if (data.success === false) {
-        setLoading(false);
-        setError(data.message);
-        return;
-      }
-      setLoading(false);
-      setError(null);
-
-      // Redirect after successful signup (using Next.js Link)
-      window.location.href = '/';
-
-    } catch (error) {
-      setLoading(false);
-      setError((error as Error).message);
+  useEffect(() => {
+    if (isLoaded && !userId) {
+      router.replace('/sign-in');
+    } else if (isLoaded && userId) {
+      setIsAuthenticated(true);
     }
-  };
+  }, [isLoaded, userId, router]);
 
   return (
     <div className='flex'>
-    <div className='p-3 max-w-lg mx-auto rounded-lg' style={{height:'80vh',width:'45vw',background: '#00000033'
-}}>
-      <h1 className='text-3xl text-center font-semibold my-7'>Sign Up</h1>
-      <form onSubmit={handleSubmit} className='flex flex-col gap-7'>
-        <input
-          type='text'
-          placeholder='username'
-          className='border p-3 rounded-lg'
-          id='username'
-          onChange={handleChange}
-        />
-        <input
-          type='email'
-          placeholder='email'
-          className='border p-3 rounded-lg'
-          id='email'
-          onChange={handleChange}
-        />
-        <input
-          type='password'
-          placeholder='password'
-          className='border p-3 rounded-lg'
-          id='password'
-          onChange={handleChange}
-        />
-
-        <button
-          disabled={loading}
-          className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'
-        >
-          {loading ? 'Loading...' : 'Sign Up'}
-        </button>
-        {/* <OAuth/> */}
-      </form>
-      <div className='flex gap-2 mt-5'>
-        <p>Have an account?</p>
-        <Link href='/sign-in'>
-          <span className='text-blue-700'>Sign in</span>
-        </Link>
-      </div>
-      {error && <p className='text-red-500 mt-5'>{error}</p>}
-    </div>
-    <div style={{height:'80vh',width:'45vw'}} className='flex items-center justify-center'>
-        Illustrations
-    </div>
+      {isAuthenticated ? (
+        <div style={{ height: '80vh', width: '100vw' }} className='flex items-center justify-center'>
+          {/* Add your profile content here */}
+          Profile Content
+        </div>
+      ) : (
+        <div>Loading...</div>
+      )}
     </div>
   );
 }

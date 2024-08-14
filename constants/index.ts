@@ -25,6 +25,14 @@ export const navbarLinks = [
   },
   {
     route: "/profile",
-    label: "profile",
+    label: "Profile",
+  },
+  {
+    route: "/sign-in",
+    label: "Signin",
+  },
+  {
+    route: "/sign-up",
+    label: "Signup",
   },
 ];
