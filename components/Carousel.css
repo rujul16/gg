@@ -1,0 +1,34 @@
+/* styles.css (or your CSS file) */
+
+/* Class for slider container */
+.slider-container {
+  height: 100%;
+  position: relative;
+}
+
+/* Class for slide element */
+.slide {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-size: cover;
+}
+
+/* Class for arrows */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  height: 10%;
+  background: transparent;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.arrow-left {
+  left: 1rem; /* Adjust as needed */
+}
+
+.arrow-right {
+  right: 1rem; /* Adjust as needed */
+}
