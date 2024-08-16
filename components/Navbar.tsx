@@ -10,7 +10,7 @@ const Navbar = () => {
   const currentRoute = usePathname();
 
   return (
-    <nav className="flex justify-between items-center p-4 shadow-lg">
+    <nav className="flex justify-between items-center p-4">
       {/* Logo */}
       <Link href="/">
         <Image src="/icons/logo.png" alt="logo" height={80} width={150} className="cursor-pointer" />
